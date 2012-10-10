@@ -1,6 +1,10 @@
 /*jshint browser:true */
 /*global console:true */
-(function(exports) {
+(function(exports, doc) {
+
+    if (typeof exports._ == 'undefined') {
+        doc.body.appendChild(doc.createElement('script')).src = 'https://raw.github.com/documentcloud/underscore/1.4.2/underscore.js';
+    }
 
     function XRayMachine(object, value, options) {
 
@@ -122,4 +126,4 @@
         return new XRayMachine(object, value, options).scan();
     };
 
-})(window);
+})(window, document);
