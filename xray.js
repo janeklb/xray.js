@@ -3,7 +3,9 @@
 (function(exports, doc) {
 
     if (typeof exports._ == 'undefined') {
-        doc.body.appendChild(doc.createElement('script')).src = 'https://raw.github.com/documentcloud/underscore/1.4.2/underscore.js';
+        var protocol = doc.location.protocol;
+        protocol = protocol == 'file:' ? 'http:' : protocol;
+        doc.body.appendChild(doc.createElement('script')).src = protocol + '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.1/underscore-min.js';
     }
 
     function XRayMachine(object, value, options) {
