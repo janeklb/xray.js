@@ -9,7 +9,7 @@
     function XRayMachine(object, value, options) {
 
         if (!(this instanceof XRayMachine)) {
-            return new XRayMachine();
+            return new XRayMachine(object, value, options);
         }
 
         options         = options || {};
