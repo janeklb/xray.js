@@ -2,17 +2,13 @@
 /*global console:true */
 (function(exports, doc) {
 
-    if (typeof exports._ == 'undefined') {
-        var protocol = doc.location.protocol;
-        protocol = protocol == 'file:' ? 'http:' : protocol;
-        doc.body.appendChild(doc.createElement('script')).src = protocol + '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.1/underscore-min.js';
-    }
+	function log() {
+		if (console && typeof console.log == 'function') {
+			console.log.apply(console, arguments);
+		}
+	}
 
     function XRayMachine(object, value, options) {
-
-        if (!(this instanceof XRayMachine)) {
-            return new XRayMachine(object, value, options);
-        }
 
         options         = options || {};
 
@@ -75,6 +71,7 @@
 
     XRayMachine.prototype._scan = function(object, depth) {
 
+    	// respect max depth
         if (this.max_depth > 0 && depth > this.max_depth) {
             return;
         }
@@ -106,7 +103,7 @@
                     try {
                         this._scan(object[k], depth + 1);
                     } catch (err) {
-                        console.log("unable to access", k, "in", object, "(" + err + ")");
+                        log("unable to access", k, "in", object, "(" + err + ")");
                     }
 
                     this.path.pop();
@@ -125,7 +122,8 @@
     };
 
     exports.xray = function(object, value, options) {
-        return new XRayMachine(object, value, options).scan();
+    	var machine = new XRayMachine(object, value, options);
+        return machine.scan();
     };
 
 })(window, document);
