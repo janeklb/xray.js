@@ -2,11 +2,11 @@
 /*global console:true */
 (function(exports, doc) {
 
-	function log() {
-		if (console && typeof console.log == 'function') {
-			console.log.apply(console, arguments);
-		}
-	}
+    function log() {
+        if (console && typeof console.log == 'function') {
+            console.log.apply(console, arguments);
+        }
+    }
 
     function XRayMachine(object, value, options) {
 
@@ -71,7 +71,7 @@
 
     XRayMachine.prototype._scan = function(object, depth) {
 
-    	// respect max depth
+        // respect max depth
         if (this.max_depth > 0 && depth > this.max_depth) {
             return;
         }
@@ -122,7 +122,7 @@
     };
 
     exports.xray = function(object, value, options) {
-    	var machine = new XRayMachine(object, value, options);
+        var machine = new XRayMachine(object, value, options);
         return machine.scan();
     };
 
