@@ -2,21 +2,41 @@
 /*global console:true */
 (function(exports, doc) {
 
+    var numeric      = /^[0-9]+$/
+    var alphanumeric = /^[0-9a-z_\-]+$/i;
+
     function log() {
         if (console && typeof console.log == 'function') {
             console.log.apply(console, arguments);
         }
     }
 
-    function XRayMachine(object, value, options) {
+    function isNode(o) {
+        return (typeof Node === "object" ?
+                o instanceof Node :
+                o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string");
+    }
+
+    function adaptToRegExp(query) {
+        if (typeof query === "object" &&
+                query.exec && query.compile && query.test) {
+            return query;
+        } else if (typeof query == "string") {
+            return new RegExp(query);
+        } else if (typeof query == "function") {
+            // mock a regex object with the user-submitted
+            // scanning function
+            return { test: query }
+        }
+
+        throw "Query parameter must be a string or RegExp object";
+    }
+
+    function XRayMachine(object, query, options) {
 
         options         = options || {};
 
-        var regex_modifiers = '';
-        if (options.case_insensitive) regex_modifiers += 'i';
-        if (options.multi_line)       regex_modifiers += 'm';
-
-        this.reg_exp    = new RegExp(value, regex_modifiers);
+        this.reg_exp    = adaptToRegExp(query);
         this.scan_keys  = options.scan_keys;
         this.max_depth  = options.max_depth;
         this.object     = object;
@@ -33,7 +53,7 @@
         var result      = [], i = 0;
         for (; i < this.matched.length; i++) {
             if (this.matched[i].length > 0) {
-                result.push(this.result(this.matched[i]));
+                result.push(this.readablePath(this.matched[i]));
             }
         }
 
@@ -47,25 +67,30 @@
         return result;
     };
 
-    XRayMachine.prototype.result = function(path) {
-        var result = '', i = 0;
+    XRayMachine.prototype.readablePath = function(path) {
+        var result = 'o', i = 0, p;
         for (; i < path.length; i++) {
-            result += '["' + path[i] + '"]';
+            p = path[i];
+            if (numeric.test(p)) {
+                result += '[' + p + ']';
+            } else if (alphanumeric.test(p)) {
+                result += '.' + p;
+            } else {
+                result += '["' + p + '"]';
+            }
         }
         return result;
     };
 
-    XRayMachine.prototype.isNode = function(o) {
-        return (typeof Node === "object" ?
-                o instanceof Node :
-                o && typeof o === "object" && typeof o.nodeType === "number" && typeof o.nodeName === "string");
+    XRayMachine.prototype.currentPath = function() {
+        return this.path.slice(0);
     };
 
     XRayMachine.prototype.check = function(value) {
-        // test a string-casted value against the regular expresssion
+        // test a string coerced value against the regular expresssion
         // and track the path if it matches
         if (this.reg_exp.test(value + '')) {
-            this.matched.push(this.path.slice(0));
+            this.matched.push(this.currentPath());
         }
     };
 
@@ -76,18 +101,18 @@
             return;
         }
 
-        // only scan once!
-        if (this.seen.indexOf(object) != -1) {
-            return;
-        }
-
-        this.seen.push(object);
-
         switch (typeof object) {
         case 'object':
 
+            // only scan once!
+            if (this.seen.indexOf(object) != -1) {
+                return;
+            }
+
+            this.seen.push(object);
+
             // don't scan DOM nodes
-            if (this.isNode(object)) {
+            if (isNode(object)) {
                 return;
             }
 
@@ -121,8 +146,8 @@
         }
     };
 
-    exports.xray = function(object, value, options) {
-        var machine = new XRayMachine(object, value, options);
+    exports.xray = function(object, query, options) {
+        var machine = new XRayMachine(object, query, options);
         return machine.scan();
     };
 
