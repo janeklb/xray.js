@@ -31,6 +31,8 @@ paths = xray(someObj, "find me", {
     max_depth:        2     // recursion depth
 });
 
+// paths === ["o.propB", "o.propC.propA", "o.propC["propD-find me"]"]
+
 // Or, with a RegExp object:
 paths = xray(someObj, /find ME/i, {
     // ...
