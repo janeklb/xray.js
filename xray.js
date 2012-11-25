@@ -6,7 +6,7 @@
     var alphanumeric = /^[0-9a-z_\-]+$/i;
 
     function log() {
-        if (console && typeof console.log == 'function') {
+        if (console && typeof console.log == "function") {
             console.log.apply(console, arguments);
         }
     }
@@ -68,15 +68,15 @@
     };
 
     XRayMachine.prototype.readablePath = function(path) {
-        var result = 'o', i = 0, p;
+        var result = "o", i = 0, p;
         for (; i < path.length; i++) {
             p = path[i];
             if (numeric.test(p)) {
-                result += '[' + p + ']';
+                result += "[" + p + "]";
             } else if (alphanumeric.test(p)) {
-                result += '.' + p;
+                result += "." + p;
             } else {
-                result += '["' + p + '"]';
+                result += "['" + p + "']";
             }
         }
         return result;
@@ -89,7 +89,7 @@
     XRayMachine.prototype.check = function(value) {
         // test a string coerced value against the regular expresssion
         // and track the path if it matches
-        if (this.reg_exp.test(value + '')) {
+        if (this.reg_exp.test(value + "")) {
             this.matched.push(this.currentPath());
         }
     };
@@ -102,7 +102,7 @@
         }
 
         switch (typeof object) {
-        case 'object':
+        case "object":
 
             // only scan once!
             if (this.seen.indexOf(object) != -1) {
@@ -137,8 +137,8 @@
 
             break;
 
-        case 'function':
-        case 'undefined':
+        case "function":
+        case "undefined":
             break;
         default:
             // for everything else, check directly
