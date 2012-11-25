@@ -1,0 +1,17 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mocha Tests for xray.js</title>
+<link rel="stylesheet" href="mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="jquery.js"></script>
+    <script src="expect.js"></script>
+    <script src="mocha.js"></script>
+    <script src="../xray.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script src="test.xray.js"></script>
+    <script>mocha.run();</script>
+</body>
+</html>
