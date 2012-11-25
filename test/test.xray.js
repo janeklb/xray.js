@@ -55,4 +55,8 @@ describe("xray.js", function() {
         it("should accept a RegExp object");
         it("should accept a function");
     });
+
+    describe("prototype properties", function() {
+        it("should find properties part of the parent prototype");
+    });
 });

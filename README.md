@@ -1,7 +1,6 @@
 # xray.js
 
-Recursively scan JavaScript objects.
-Similar to
+Recursively scan JavaScript objects and their properties. Useful for testing to see whether an object contains something of interest.
 
 ### Usage:
 
