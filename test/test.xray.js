@@ -9,7 +9,6 @@ var testObject = {
                 }
         ],
         someKey: "valD"
-
 };
 
 describe("xray.js", function() {
@@ -51,12 +50,46 @@ describe("xray.js", function() {
     });
 
     describe("query parameter", function() {
-        it("should accept a regular string");
-        it("should accept a RegExp object");
-        it("should accept a function");
+        it("should accept a regular string", function() {
+            expect(function() {
+                xray(testObject, "valA");
+            }).to.not.throwException();
+        });
+        it("should accept a RegExp object", function() {
+            expect(function() {
+                xray(testObject, /valA/);
+            }).to.not.throwException();
+        });
+        it("should accept a function", function() {
+            expect(function() {
+                xray(testObject, function(value) { return false; });
+            }).to.not.throwException();
+        });
+        it("should throw an exception if anything else is passed as a query", function() {
+            var errorRegExp = /Query parameter must be a string, RegExp object, or function/
+            expect(function() { xray(testObject, window); }).to.throwException(errorRegExp);
+            expect(function() { xray(testObject, []); }).to.throwException(errorRegExp);
+            expect(function() { xray(testObject, 2); }).to.throwException(errorRegExp);
+            expect(function() { xray(testObject, false); }).to.throwException(errorRegExp);
+        });
     });
 
     describe("prototype properties", function() {
-        it("should find properties part of the parent prototype");
+        it("should find properties part of the parent prototype", function() {
+
+            var GrandParent = Class.extend({ grandParentProperty: "grandparent value" });
+            var Parent = GrandParent.extend({ parentProperty: "parent value" });
+            var Child = Parent.extend({ childProperty: "child value" });
+            var child = new Child();
+
+            var paths = xray(child, "value");
+            expect(paths.length).to.be(3);
+            expect(paths[0]).to.be("o.childProperty");
+            expect(paths[1]).to.be("o.parentProperty");
+            expect(paths[2]).to.be("o.grandParentProperty");
+
+            paths = xray(child, /property/i, { scan_keys: true });
+            expect(paths.length).to.be(3);
+        });
     });
 });

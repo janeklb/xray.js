@@ -31,7 +31,7 @@
             return { test: query };
         }
 
-        throw "Query parameter must be a string or RegExp object";
+        throw "Query parameter must be a string, RegExp object, or function";
     }
 
     function XRayMachine(object, query, options) {
@@ -119,22 +119,20 @@
             }
 
             for (var k in object) {
-                if (object.hasOwnProperty(k)) {
 
-                    this.path.push(k);
+                this.path.push(k);
 
-                    if (this.scan_keys) {
-                        this.check(k);
-                    }
-
-                    try {
-                        this._scan(object[k], depth + 1);
-                    } catch (err) {
-                        log("unable to access", k, "in", object, "(" + err + ")");
-                    }
-
-                    this.path.pop();
+                if (this.scan_keys) {
+                    this.check(k);
                 }
+
+                try {
+                    this._scan(object[k], depth + 1);
+                } catch (err) {
+                    log("unable to access", k, "in", object, "(" + err + ")");
+                }
+
+                this.path.pop();
             }
 
             break;
@@ -153,8 +151,6 @@
         return machine.scan();
     };
 
-    if (window) {
-        window.xray = xray;
-    }
+    this.xray = xray;
 
-})();
+}).call(this);
