@@ -1,12 +1,14 @@
 /*jshint browser:true */
 /*global console:true */
-(function(exports, doc) {
+(function() {
 
-    var numeric      = /^[0-9]+$/
+    "use strict";
+
+    var numeric      = /^[0-9]+$/;
     var alphanumeric = /^[0-9a-z_\-]+$/i;
 
     function log() {
-        if (console && typeof console.log == "function") {
+        if (console && typeof console.log === "function") {
             console.log.apply(console, arguments);
         }
     }
@@ -21,12 +23,12 @@
         if (typeof query === "object" &&
                 query.exec && query.compile && query.test) {
             return query;
-        } else if (typeof query == "string") {
+        } else if (typeof query === "string") {
             return new RegExp(query);
-        } else if (typeof query == "function") {
+        } else if (typeof query === "function") {
             // mock a regex object with the user-submitted
             // scanning function
-            return { test: query }
+            return { test: query };
         }
 
         throw "Query parameter must be a string or RegExp object";
@@ -105,7 +107,7 @@
         case "object":
 
             // only scan once!
-            if (this.seen.indexOf(object) != -1) {
+            if (this.seen.indexOf(object) !== -1) {
                 return;
             }
 
@@ -146,9 +148,13 @@
         }
     };
 
-    exports.xray = function(object, query, options) {
+    var xray = function(object, query, options) {
         var machine = new XRayMachine(object, query, options);
         return machine.scan();
     };
 
-})(window, document);
+    if (window) {
+        window.xray = xray;
+    }
+
+})();
