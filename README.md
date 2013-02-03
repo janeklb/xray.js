@@ -1,6 +1,6 @@
 # xray.js
 
-Recursively scan JavaScript objects and their properties. Useful for testing to see whether an object contains something of interest. If you're using Google Chrome, consider loading this via [JSKit](https://chrome.google.com/webstore/detail/jskit/aopfdhabfojdkgcmibiegfhpfkcokmdg).
+Recursively scan JavaScript objects' properties. Useful for testing to see whether an object contains something of interest. If you're using Google Chrome, consider loading this via [JSKit](https://chrome.google.com/webstore/detail/jskit/aopfdhabfojdkgcmibiegfhpfkcokmdg).
 
 ### Usage:
 
