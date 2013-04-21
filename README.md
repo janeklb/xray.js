@@ -48,4 +48,4 @@ paths = xray(someObj, function(value) {
 
 ### Todo:
 
-- test on non-browser JS runtimes
+- handle DOM Node scanning better
