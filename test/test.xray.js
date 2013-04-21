@@ -1,20 +1,20 @@
-var testObject = {
-
-        propA: "valA",
-        propB: "valB",
-        propC: "valC",
-        arrayA: [
-                0, 1, 2, 3, {
-                    nestedObjectProp: "valA"
-                }
-        ],
-        someKey: "valD"
-};
+var expect = require('./expect'),
+    Class  = require('./class'),
+    xray   = require('../lib/xray.js').xray;
 
 describe("xray.js", function() {
 
-    it("should be a function available in the global/window scope", function() {
-        expect(window.xray).to.be.a("function");
+    // define a simple object to test with
+    var testObject = {
+        propA: "valA",
+        propB: "valB",
+        propC: "valC",
+        arrayA: [ 0, 1, 2, 3, { nestedObjectProp: "valA" } ],
+        someKey: "valD"
+    };
+
+    it("should be a function", function() {
+        expect(xray).to.be.a("function");
     });
 
     describe("max depth option", function() {
@@ -67,7 +67,7 @@ describe("xray.js", function() {
         });
         it("should throw an exception if anything else is passed as a query", function() {
             var errorRegExp = /Query parameter must be a string, RegExp object, or function/
-            expect(function() { xray(testObject, window); }).to.throwException(errorRegExp);
+            expect(function() { xray(testObject, {}); }).to.throwException(errorRegExp);
             expect(function() { xray(testObject, []); }).to.throwException(errorRegExp);
             expect(function() { xray(testObject, 2); }).to.throwException(errorRegExp);
             expect(function() { xray(testObject, false); }).to.throwException(errorRegExp);

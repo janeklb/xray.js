@@ -1,0 +1,27 @@
+{
+  "name": "xray",
+  "version": "0.3.0",
+  "description": "Scan/search javascript objects and their properties",
+  "main": "lib/xray.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/test*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/janeklb/xray.js.git"
+  },
+  "keywords": [
+    "scan",
+    "search"
+  ],
+  "author": "Janek L.B. <iamjanek@gmail.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "a0b890d68dcf19d4de38c7f1edd8b4c58eea09b2",
+  "devDependencies": {
+    "mocha": ""
+  }
+}
