@@ -2,6 +2,8 @@
 
 Recursively scan JavaScript objects' properties. Useful for testing to see whether an object contains something of interest. If you're using Google Chrome, consider loading this via [JSKit](https://chrome.google.com/webstore/detail/jskit/aopfdhabfojdkgcmibiegfhpfkcokmdg).
 
+[![Travis Build Status](https://api.travis-ci.org/janeklb/xray.js.png?branch=master)](https://travis-ci.org/janeklb/xray.js)
+
 ### Usage:
 
 `xray(Object object, String regex)` returns an array of property paths to (nested) object values that match the regex
