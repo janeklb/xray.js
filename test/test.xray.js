@@ -1,7 +1,3 @@
-var expect = require('./expect'),
-    Class  = require('./class'),
-    xray   = require('../lib/xray.js').xray;
-
 describe("xray.js", function() {
 
     // define a simple object to test with
@@ -14,38 +10,38 @@ describe("xray.js", function() {
     };
 
     it("should be a function", function() {
-        expect(xray).to.be.a("function");
+        expect(typeof xray).toBe("function");
     });
 
     describe("max depth option", function() {
         it("should be off by default", function() {
             var paths = xray(testObject, "valA");
-            expect(paths.length).to.be(2);
-            expect(paths[0]).to.be('o.propA');
-            expect(paths[1]).to.be('o.arrayA[4].nestedObjectProp');
+            expect(paths.length).toBe(2);
+            expect(paths[0]).toBe('o.propA');
+            expect(paths[1]).toBe('o.arrayA[4].nestedObjectProp');
         });
         it("should be off if zero is specified as value", function() {
             var paths = xray(testObject, "valA", { max_depth: 0 });
-            expect(paths.length).to.be(2);
-            expect(paths[0]).to.be('o.propA');
-            expect(paths[1]).to.be('o.arrayA[4].nestedObjectProp');
+            expect(paths.length).toBe(2);
+            expect(paths[0]).toBe('o.propA');
+            expect(paths[1]).toBe('o.arrayA[4].nestedObjectProp');
         });
         it("should respect a non-zero value", function() {
             var paths = xray(testObject, "valA", { max_depth: 1});
-            expect(paths.length).to.be(1);
-            expect(paths[0]).to.be('o.propA');
+            expect(paths.length).toBe(1);
+            expect(paths[0]).toBe('o.propA');
         });
     });
 
     describe("scan keys option", function() {
         it("shouldn't scan keys by default", function() {
             var paths = xray(testObject, "propA");
-            expect(paths.length).to.be(0);
+            expect(paths.length).toBe(0);
         });
         it("should scan keys if enabled", function() {
             var paths = xray(testObject, "propA", { scan_keys: true });
-            expect(paths.length).to.be(1);
-            expect(paths[0]).to.be("o.propA");
+            expect(paths.length).toBe(1);
+            expect(paths[0]).toBe("o.propA");
         });
     });
 
@@ -53,24 +49,24 @@ describe("xray.js", function() {
         it("should accept a regular string", function() {
             expect(function() {
                 xray(testObject, "valA");
-            }).to.not.throwException();
+            }).not.toThrow();
         });
         it("should accept a RegExp object", function() {
             expect(function() {
                 xray(testObject, /valA/);
-            }).to.not.throwException();
+            }).not.toThrow();
         });
         it("should accept a function", function() {
             expect(function() {
                 xray(testObject, function(value) { return false; });
-            }).to.not.throwException();
+            }).not.toThrow();
         });
         it("should throw an exception if anything else is passed as a query", function() {
-            var errorRegExp = /Query parameter must be a string, RegExp object, or function/
-            expect(function() { xray(testObject, {}); }).to.throwException(errorRegExp);
-            expect(function() { xray(testObject, []); }).to.throwException(errorRegExp);
-            expect(function() { xray(testObject, 2); }).to.throwException(errorRegExp);
-            expect(function() { xray(testObject, false); }).to.throwException(errorRegExp);
+            var errorRegExp = new Error("Query parameter must be a string, RegExp object, or function");
+            expect(function() { xray(testObject, {}); }).toThrow(errorRegExp);
+            expect(function() { xray(testObject, []); }).toThrow(errorRegExp);
+            expect(function() { xray(testObject, 2); }).toThrow(errorRegExp);
+            expect(function() { xray(testObject, false); }).toThrow(errorRegExp);
         });
     });
 
@@ -83,13 +79,14 @@ describe("xray.js", function() {
             var child = new Child();
 
             var paths = xray(child, "value");
-            expect(paths.length).to.be(3);
-            expect(paths[0]).to.be("o.childProperty");
-            expect(paths[1]).to.be("o.parentProperty");
-            expect(paths[2]).to.be("o.grandParentProperty");
+            expect(paths.length).toBe(3);
+            expect(paths[0]).toBe("o.childProperty");
+            expect(paths[1]).toBe("o.parentProperty");
+            expect(paths[2]).toBe("o.grandParentProperty");
 
             paths = xray(child, /property/i, { scan_keys: true });
-            expect(paths.length).to.be(3);
+            expect(paths.length).toBe(3);
         });
     });
+
 });

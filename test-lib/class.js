@@ -3,10 +3,10 @@
  * MIT Licensed.
  */
 // Inspired by base2 and Prototype
-(function(){
+(function(global){
   var initializing = false, fnTest = /xyz/.test(function(){xyz;}) ? /\b_super\b/ : /.*/;
   // The base Class implementation (does nothing)
-  var Class = module.exports = function(){};
+  var Class = global.Class = function(){};
 
   // Create a new Class that inherits from this class
   Class.extend = function(prop) {
@@ -60,4 +60,4 @@
 
     return Class;
   };
-})();
+})(window);

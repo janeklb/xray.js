@@ -3,11 +3,8 @@
   "version": "0.4.0",
   "description": "Scan/search javascript objects and their properties",
   "main": "lib/xray.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "mocha test/test*.js"
+    "test": "grunt karma"
   },
   "repository": {
     "type": "git",
@@ -22,6 +19,10 @@
   "readmeFilename": "README.md",
   "gitHead": "a0b890d68dcf19d4de38c7f1edd8b4c58eea09b2",
   "devDependencies": {
-    "mocha": ""
+    "grunt": "^0.4.5",
+    "karma": "^0.12.16",
+    "grunt-karma": "^0.8.3",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
   }
 }
