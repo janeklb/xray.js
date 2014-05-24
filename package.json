@@ -4,7 +4,7 @@
   "description": "Scan/search javascript objects and their properties",
   "main": "lib/xray.js",
   "scripts": {
-    "test": "grunt karma"
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "karma": "^0.12.16",
     "grunt-karma": "^0.8.3",
     "karma-jasmine": "^0.1.5",
-    "karma-phantomjs-launcher": "^0.1.4"
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-growl-reporter": "git://github.com/chieffancypants/karma-growl-reporter.git#71ee673bab3412c07328305ff1f874c49ef19d3e"
   }
 }
