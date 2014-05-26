@@ -54,3 +54,10 @@ paths = xray(someObj, function(value, properties) {
 ### Todo:
 
 - handle DOM Node scanning better
+
+### Changes:
+
+0.5
+- node module now directly exports a function (ie. `var xray = require('xray')` vs. `var xray = require('xray').xray`)
+- JSONPath output
+- added `properties` argument to custom scanner callback
