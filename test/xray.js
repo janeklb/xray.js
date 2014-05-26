@@ -17,19 +17,19 @@ describe("xray.js", function() {
         it("should be off by default", function() {
             var paths = xray(testObject, "valA");
             expect(paths.length).toBe(2);
-            expect(paths[0]).toBe('o.propA');
-            expect(paths[1]).toBe('o.arrayA[4].nestedObjectProp');
+            expect(paths[0]).toBe('$.propA');
+            expect(paths[1]).toBe('$.arrayA[4].nestedObjectProp');
         });
         it("should be off if zero is specified as value", function() {
             var paths = xray(testObject, "valA", { max_depth: 0 });
             expect(paths.length).toBe(2);
-            expect(paths[0]).toBe('o.propA');
-            expect(paths[1]).toBe('o.arrayA[4].nestedObjectProp');
+            expect(paths[0]).toBe('$.propA');
+            expect(paths[1]).toBe('$.arrayA[4].nestedObjectProp');
         });
         it("should respect a non-zero value", function() {
             var paths = xray(testObject, "valA", { max_depth: 1});
             expect(paths.length).toBe(1);
-            expect(paths[0]).toBe('o.propA');
+            expect(paths[0]).toBe('$.propA');
         });
     });
 
@@ -41,7 +41,7 @@ describe("xray.js", function() {
         it("should scan keys if enabled", function() {
             var paths = xray(testObject, "propA", { scan_keys: true });
             expect(paths.length).toBe(1);
-            expect(paths[0]).toBe("o.propA");
+            expect(paths[0]).toBe("$.propA");
         });
     });
 
@@ -80,9 +80,9 @@ describe("xray.js", function() {
 
             var paths = xray(child, "value");
             expect(paths.length).toBe(3);
-            expect(paths[0]).toBe("o.childProperty");
-            expect(paths[1]).toBe("o.parentProperty");
-            expect(paths[2]).toBe("o.grandParentProperty");
+            expect(paths[0]).toBe("$.childProperty");
+            expect(paths[1]).toBe("$.parentProperty");
+            expect(paths[2]).toBe("$.grandParentProperty");
 
             paths = xray(child, /property/i, { scan_keys: true });
             expect(paths.length).toBe(3);
@@ -101,7 +101,7 @@ describe("xray.js", function() {
 			var object = { prop: [ 1, 2, "3", { subPro: "ha" } ] };
 			xray(object, scanner);
 
-			expect(scanner.mostRecentCall.args[1].path).toEqual("o.prop[3].subPro");
+			expect(scanner.mostRecentCall.args[1].path).toEqual("$.prop[3].subPro");
 		});
 
 

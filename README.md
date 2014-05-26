@@ -6,7 +6,7 @@ Recursively scan JavaScript objects' properties. Useful for testing to see wheth
 
 ### Usage:
 
-`xray(object, scanner)` returns an array of property paths to (nested) object values that are matched by the scanner
+`xray(object, scanner)` returns an array of JSONPaths to (nested) object values that are matched by the scanner
 
 ```javascript
 someObj = {
