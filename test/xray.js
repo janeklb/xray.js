@@ -89,4 +89,37 @@ describe("xray.js", function() {
         });
     });
 
+	describe("cusomter scanner function", function() {
+
+		var scanner;
+		beforeEach(function() {
+			scanner = jasmine.createSpy("scanner");
+		});
+
+		it("should be informed of the path being scanned", function() {
+
+			var object = { prop: [ 1, 2, "3", { subPro: "ha" } ] };
+			xray(object, scanner);
+
+			expect(scanner.mostRecentCall.args[1].path).toEqual("o.prop[3].subPro");
+		});
+
+
+		it("should be informed if a key is being scanned", function() {
+
+			var object = { someKey: "someValue" };
+
+			xray(object, scanner, { scan_keys: true });
+			expect(scanner.calls.length).toEqual(2);
+
+			var args = scanner.calls[0].args;
+			expect(args[0]).toBe("someKey");
+			expect(args[1].isKey).toBe(true);
+
+			args = scanner.calls[1].args;
+			expect(args[0]).toBe("someValue");
+			expect(args[1].isKey).toBe(false);
+		});
+	});
+
 });

@@ -6,7 +6,7 @@ Recursively scan JavaScript objects' properties. Useful for testing to see wheth
 
 ### Usage:
 
-`xray(Object object, String regex)` returns an array of property paths to (nested) object values that match the regex
+`xray(object, scanner)` returns an array of property paths to (nested) object values that are matched by the scanner
 
 ```javascript
 someObj = {
@@ -40,7 +40,10 @@ paths = xray(someObj, /find ME/i, {
 })
 
 // Or, with a custom function that indicates a match by returning a truthy value:
-paths = xray(someObj, function(value) {
+paths = xray(someObj, function(value, properties) {
+    // properties has:
+    //  isKey: boolean
+    //  path: path to current value
     return value === "find me";
 }, {
     // ...
